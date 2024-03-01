@@ -1,7 +1,8 @@
+require("dotenv").config();
 
 const config = {
     user :'azim',
-    password :'A21m@763',
+    password :process.env.DBPASS,
     server:'mylangaradb.database.windows.net',
     database:'CleanOpsDB',
     options:{
