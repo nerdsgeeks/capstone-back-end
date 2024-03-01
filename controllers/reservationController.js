@@ -35,7 +35,7 @@ async function addReservation(reservation) {
       .input("GuestName", sql.NVarChar, reservation.GuestName)
       .input("NoOfGuest", sql.Int, reservation.NoOfGuest)
       .input("AdditionalNotes", sql.NVarChar, reservation.AdditionalNotes)
-      .input("IsCompleted", sql.Binary, reservation.IsCompleted)
+      .input("IsCompleted", sql.Bit, reservation.IsCompleted)
       .execute("InsertReservation");
     return insertObject.recordsets;
   } catch (err) {
@@ -55,7 +55,7 @@ async function updateReservation(reservation) {
       .input("GuestName", sql.NVarChar, reservation.GuestName)
       .input("NoOfGuest", sql.Int, reservation.NoOfGuest)
       .input("AdditionalNotes", sql.NVarChar, reservation.AdditionalNotes)
-      .input("IsCompleted", sql.Binary, reservation.IsCompleted)
+      .input("IsCompleted", sql.Bit, reservation.IsCompleted)
       .execute("UpdateReservation");
 
     return updateObject.recordsets;
