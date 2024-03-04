@@ -4,6 +4,13 @@ const cors = require("cors");
 const itemRoutes = require("./routes/items");
 const roomRoutes = require("./routes/rooms");
 const requestItems = require("./routes/requestItems");
+const reservations = require("./routes/reservation");
+const roomtypes = require("./routes/roomType");
+const employees = require("./routes/employees");
+const assignedrooms = require("./routes/assignedroom");
+
+
+
 
 const app = express();
 
@@ -28,7 +35,10 @@ app.use(express.urlencoded({limit: '50mb'}));
 app.use("/api/rooms", roomRoutes);
 app.use("/api/items", itemRoutes);
 app.use("/api/requestItems", requestItems);
-
+app.use("/api/reservations", reservations);
+app.use("/api/roomtypes", roomtypes);
+app.use("/api/employees", employees);
+app.use("/api/assignedrooms", assignedrooms);
 router.use((request,response,next)=>{
     console.log('middleware');
     next();
