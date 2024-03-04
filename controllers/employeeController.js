@@ -1,7 +1,8 @@
 
 //const User = require("../models/userModel");
+var config = require("../dbconfig");
 const bcrypt = require("bcrypt");
-
+const sql = require("mssql");
 
 async function createEmployee(employee) {
   try {
@@ -27,8 +28,8 @@ async function createEmployee(employee) {
 async function getEmployees() {
   try {
       let pool = await sql.connect(config);
-      let result = await pool.request().execute('GetEmployees');
-      return result.recordsets[0];
+      let objects = await pool.request().execute('GetEmployees');
+      return objects.recordsets;
   }
   catch (err) {
       console.log(err);
