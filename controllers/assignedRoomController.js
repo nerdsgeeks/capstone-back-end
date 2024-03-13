@@ -109,7 +109,7 @@ async function getAssignedRoomsInfo() {
     r.RoomName,
     r.Floor,
     r.RoomImageUrl,
-    rt.roomTypeName
+    rt.RoomTypeName
 FROM 
     AssignedRoom ar
 LEFT JOIN 
