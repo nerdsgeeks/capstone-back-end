@@ -5,7 +5,7 @@ var sql = require("mssql");
 async function getRequestItems() {
     try {
         let pool = await sql.connect(config);
-        let objects = await pool.request().query("SELECT * from RequestItem");
+        let objects = await pool.request().query("SELECT * from View_RequestItems");
         return objects.recordsets;
     } catch (error) {
         console.log(error);
