@@ -8,6 +8,7 @@ const reservations = require("./routes/reservation");
 const roomtypes = require("./routes/roomType");
 const employees = require("./routes/employees");
 const assignedrooms = require("./routes/assignedroom");
+const s3Routes = require("./routes/uploadS3");
 
 const jwtAuthMiddleware = require('./middleware/jwtAuth');
 
@@ -46,6 +47,7 @@ app.use("/api/reservations", reservations);
 app.use("/api/roomtypes", roomtypes);
 app.use("/api/employees", employees);
 app.use("/api/assignedrooms", assignedrooms);
+app.use("/api/s3", s3Routes);
 
 
 

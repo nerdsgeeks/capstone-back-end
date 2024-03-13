@@ -43,8 +43,24 @@ async function addRoom(room) {
     }
 }
 
+async function getRoomsWithTypes() {
+    try {
+        let pool = await sql.connect(config);
+        let result = await pool.request().query(`
+            SELECT r.ID, r.RoomName, r.RoomTypeID, r.Floor, r.RoomStatus, r.RoomImageUrl, rt.RoomTypeName
+            FROM Rooms r
+            JOIN RoomTypes rt ON r.RoomTypeID = rt.ID
+        `);
+        return result.recordsets;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 module.exports = {
     getRooms: getRooms,
     getRoom : getRoom,
-    addRoom : addRoom
+    addRoom : addRoom,
+    getRoomsWithTypes: getRoomsWithTypes
 }

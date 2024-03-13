@@ -97,10 +97,37 @@ async function deleteAssignedRoom(assignedRoom) {
   }
 }
 
+
+
+async function getAssignedRoomsInfo() {
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool.request().query(`
+    SELECT 
+    ar.ID AS assignedRoomID,
+    ar.*,
+    r.RoomName,
+    r.Floor,
+    r.RoomImageUrl,
+    rt.RoomTypeName
+FROM 
+    AssignedRoom ar
+LEFT JOIN 
+    Rooms r ON ar.RoomID = r.ID
+JOIN 
+    RoomTypes rt ON r.RoomTypeID = rt.ID`);
+    return result.recordset;
+  } catch (error) {
+    console.error("Error fetching assigned rooms information:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   getAssignedRooms: getAssignedRooms,
   getAssignedRoom: getAssignedRoom,
   addAssignedRoom: addAssignedRoom,
   updateAssignedRoom: updateAssignedRoom,
   deleteAssignedRoom: deleteAssignedRoom,
+  getAssignedRoomsInfo: getAssignedRoomsInfo,
 };
