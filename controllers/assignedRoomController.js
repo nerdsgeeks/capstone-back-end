@@ -4,7 +4,7 @@ const sql = require("mssql");
 async function getAssignedRooms() {
   try {
     let pool = await sql.connect(config);
-    let objects = await pool.request().query("SELECT * from AssignedRoom");
+    let objects = await pool.request().query("SELECT * from View_AssignedRoom");
     return objects.recordsets;
   } catch (error) {
     console.log(error);
