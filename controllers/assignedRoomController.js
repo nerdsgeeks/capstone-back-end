@@ -109,13 +109,25 @@ async function getAssignedRoomsInfo() {
     r.RoomName,
     r.Floor,
     r.RoomImageUrl,
-    rt.RoomTypeName
+    rt.RoomTypeName,
+    res.GuestName AS guestName,
+    res.AdditionalNotes AS reservationNotes,
+    res.CheckinDate AS checkIn,
+    res.CheckoutDate AS checkOut,
+    res.noOfGuest AS noOfGuest,
+    e.FirstName,
+    e.LastName,
+    e.EmployeeType
 FROM 
     AssignedRoom ar
 LEFT JOIN 
     Rooms r ON ar.RoomID = r.ID
 JOIN 
-    RoomTypes rt ON r.RoomTypeID = rt.ID`);
+    RoomTypes rt ON r.RoomTypeID = rt.ID
+LEFT JOIN
+    Reservation res ON ar.ID = res.ID
+LEFT JOIN
+    Employee e ON ar.assignedEmployeeID = e.ID`);
     return result.recordset;
   } catch (error) {
     console.error("Error fetching assigned rooms information:", error);
