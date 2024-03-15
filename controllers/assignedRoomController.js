@@ -11,6 +11,16 @@ async function getAssignedRooms() {
   }
 }
 
+async function getAssignedRoomTblAll() {
+  try {
+    let pool = await sql.connect(config);
+    let objects = await pool.request().query("SELECT * from AssignedRoom");
+    return objects.recordsets;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function getAssignedRoom(assignedRoomId) {
   try {
     let pool = await sql.connect(config);
@@ -97,8 +107,6 @@ async function deleteAssignedRoom(assignedRoom) {
   }
 }
 
-
-
 async function getAssignedRoomsInfo() {
   try {
     let pool = await sql.connect(config);
@@ -142,4 +150,5 @@ module.exports = {
   updateAssignedRoom: updateAssignedRoom,
   deleteAssignedRoom: deleteAssignedRoom,
   getAssignedRoomsInfo: getAssignedRoomsInfo,
+  getAssignedRoomTblAll: getAssignedRoomTblAll,
 };
