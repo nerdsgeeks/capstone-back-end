@@ -1,5 +1,13 @@
 const express = require("express");
-const cors = require("cors");
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
+// const { logger } = require('./middleware/logEvents');
+// const errorHandler = require('./middleware/errorHandler');
+const verifyJWT = require('./middleware/verifyJWT');
+const cookieParser = require('cookie-parser');
+const credentials = require('./middleware/credentials');
+
+
 // const mongoose = require("mongoose");
 const itemRoutes = require("./routes/items");
 const roomRoutes = require("./routes/rooms");
@@ -8,23 +16,28 @@ const reservations = require("./routes/reservation");
 const roomtypes = require("./routes/roomType");
 const employees = require("./routes/employees");
 const assignedrooms = require("./routes/assignedroom");
+const authentication = require("./routes/auth");
+const logout =  require('./routes/logout');
+const refresh = require('./routes/refresh');
+
 
 const jwtAuthMiddleware = require('./middleware/jwtAuth');
 
 
 const app = express();
-app.use('/protectedRoute', jwtAuthMiddleware);
 
 
-app.post('/protectedRoute', (req, res) => {
-    // This route is protected
+app.use(credentials);
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
 
-    console.log(' This route is protected');
 
+app.use("/api/auth", authentication);
+app.use('/api/refresh', refresh);
+app.use('/api/logout',logout);
 
-});
-console.log(jwtAuthMiddleware);
-// Other routes...
+app.use(verifyJWT);
 
 
 var bodyParser = require('body-parser');
@@ -46,7 +59,6 @@ app.use("/api/reservations", reservations);
 app.use("/api/roomtypes", roomtypes);
 app.use("/api/employees", employees);
 app.use("/api/assignedrooms", assignedrooms);
-
 
 
 // router.use((request,response,next)=>{
