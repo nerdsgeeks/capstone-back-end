@@ -27,6 +27,7 @@ async function getItem(itemId) {
 async function addItem(item) {
   try {
     let pool = await sql.connect(config);
+    console.log(item);
     let insertObject = await pool
       .request()
       .input("ItemName", sql.NVarChar, item.ItemName)
@@ -35,7 +36,7 @@ async function addItem(item) {
       .input("ImageUrl", sql.NVarChar, item.ImageUrl)
       .input("GroupName", sql.NVarChar, item.GroupName)
       .input("ItemType", sql.NVarChar, item.ItemType)
-      .execute("InsertItem");
+      .execute("CreateItem");
     return insertObject.recordsets;
   } catch (err) {
     console.log(err);
