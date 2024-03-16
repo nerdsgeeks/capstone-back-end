@@ -49,7 +49,8 @@ async function getEmployee(ID ) {
 }
 async function updateEmployee(employee) {
   try {
-      let pool = await sql.connect(config);
+    const hashedPassword = await bcrypt.hash( employee.Password, 10);
+    let pool = await sql.connect(config);
       let updateObject = await pool.request()
           .input('EmployeeID', sql.Int, employee.EmployeeID)
           .input('FirstName', sql.VarChar, employee.FirstName)
@@ -58,7 +59,7 @@ async function updateEmployee(employee) {
           .input('PhoneNumber', sql.VarChar, employee.PhoneNumber)
           .input('ShiftSchadule', sql.VarChar, employee.ShiftSchadule)
           .input('EmployeeID', sql.VarChar, employee.EmployeeID)
-          .input('Password', sql.VarBinary, employee.Password)
+          .input('Password', sql.VarChar,hashedPassword)
           .input('EmployeeType', sql.Int, employee.EmployeeType)
           .execute('UpdateEmployee');
       return updateObject.recordsets;
@@ -80,6 +81,7 @@ async function deleteEmployee(employeeID) {
       console.log(err);
   }
 }
+
 
 
 module.exports = {

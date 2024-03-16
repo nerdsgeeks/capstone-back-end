@@ -155,6 +155,5 @@ module.exports = {
   addAssignedRoom: addAssignedRoom,
   updateAssignedRoom: updateAssignedRoom,
   deleteAssignedRoom: deleteAssignedRoom,
-  getAssignedRoomsInfo: getAssignedRoomsInfo,
   getAssignedRoomTblAll: getAssignedRoomTblAll,
 };
