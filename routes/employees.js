@@ -8,7 +8,11 @@ router.route('/all').get((request,response)=>{
        response.json(result[0]);
     })
 })
-
+router.route('/alldatabyemployee').get((request,response)=>{
+   dboperations.getAlldatabyEmployees().then(result => {
+      response.json(result[0]);
+   })
+})
 router.route('/getemployee/:id').get((request,response)=>{
     dboperations.getEmployee(request.params.id).then(result => {
        response.json(result[0]);

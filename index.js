@@ -23,7 +23,6 @@ const refresh = require('./routes/refresh');
 
 
 const jwtAuthMiddleware = require("./middleware/jwtAuth");
-// const jwtAuthMiddleware = require('./middleware/jwtAuth');
 
 
 const app = express();
@@ -34,14 +33,6 @@ app.use(credentials);
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
-
-// app.post("/protectedRoute", (req, res) => {
-//   // This route is protected
-
-//   console.log(" This route is protected");
-// });
-// console.log(jwtAuthMiddleware);
-// // Other routes...
 
 app.use("/api/auth", authentication);
 app.use('/api/refresh', refresh);

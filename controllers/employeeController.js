@@ -35,6 +35,17 @@ async function getEmployees() {
       console.log(err);
   }
 }
+
+async function getAlldatabyEmployees() {
+  try {
+    let pool = await sql.connect(config);
+    let objects = await pool.request().query("SELECT * from View_employee");
+    return objects.recordsets;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function getEmployee(ID ) {
   try {
     let pool = await sql.connect(config);
