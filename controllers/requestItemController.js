@@ -34,6 +34,21 @@ async function getRequestItem(requestItemId) {
   }
 }
 
+async function getRequestItemView(assignedRoomID) {
+  try {
+    let pool = await sql.connect(config);
+    let object = await pool
+      .request()
+      .input("assignedRoomID", sql.Int, assignedRoomID)
+      .query(
+        "SELECT * from View_RequestItems where assignedRoomID = @assignedRoomID",
+      );
+    return object.recordsets;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function addRequestItem(requestItem) {
   try {
     console.log(requestItem);
@@ -105,4 +120,5 @@ module.exports = {
   updateRequestItem: updateRequestItem,
   deleteRequestItem: deleteRequestItem,
   getRequestItemsTblAll: getRequestItemsTblAll,
+  getRequestItemView: getRequestItemView,
 };

@@ -20,6 +20,14 @@ router.route("/getRequestItem/:id").get((request, response) => {
   });
 });
 
+router.route("/getRequestItemView/:assignedRoomID").get((request, response) => {
+  dboperations
+    .getRequestItemView(request.params.assignedRoomID)
+    .then((result) => {
+      response.json(result[0]);
+    });
+});
+
 router.route("/addRequestItem").post((request, response) => {
   let requestItem = { ...request.body };
   dboperations.addRequestItem(requestItem).then((result) => {
