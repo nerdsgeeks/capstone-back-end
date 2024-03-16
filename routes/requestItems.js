@@ -26,13 +26,18 @@
 
     );
         
-    router.route("/updateRequestItem").post((request, response) => {
-        let requestItem = { ...request.body };
-        dboperations.updateRequestItem(requestItem).then((result) => {
-            response.status(201).json(result);
-        });
-        }
-    );  
+    router.route("/updateRequestItem").put((request, response) => {
+      let requestItem = request.body ;   
+      console.log(requestItem);
+      requestItem.map((requestItem) => {     
+          const requestItemId = requestItem.ID;      
+      dboperations.updateRequestItem(requestItemId, requestItem).then((result) => {
+          response.status(201).json(result);
+      });
+      }
+  );  
+  }
+  );
 
     router.route("/updateAssignedSupervisorId").patch((request, response) => {
         let requestItem = { ...request.body };
