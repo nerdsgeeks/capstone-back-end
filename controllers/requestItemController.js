@@ -78,6 +78,23 @@ async function deleteRequestItem(requestItemId) {
 }
 
 
+async function updateAssignedSupervisorId(requestItemId, requestItem) {
+    
+        try {
+            let pool = await sql.connect(config);
+            let updateObject = await pool
+                .request()
+                .input("Id", sql.Int, requestItemId)
+                .input("AssignedSupervisorId", sql.Int, requestItem.AssignedSupervisorId)
+                .execute("UpdateAssignedSupervisorId");
+            return updateObject.recordsets;
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+
+
 
 
 module.exports = {
@@ -85,6 +102,7 @@ module.exports = {
     getRequestItem: getRequestItem,
     addRequestItem: addRequestItem,
     updateRequestItem: updateRequestItem,
-    deleteRequestItem: deleteRequestItem
+    deleteRequestItem: deleteRequestItem,
+    updateAssignedSupervisorId: updateAssignedSupervisorId
 };
 

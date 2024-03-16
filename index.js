@@ -14,6 +14,7 @@ const jwtAuthMiddleware = require("./middleware/jwtAuth");
 
 const app = express();
 app.use("/protectedRoute", jwtAuthMiddleware);
+app.use(express.json({limit: '50mb'}));
 
 app.post("/protectedRoute", (req, res) => {
   // This route is protected

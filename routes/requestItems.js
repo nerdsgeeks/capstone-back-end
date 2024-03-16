@@ -34,12 +34,13 @@
         }
     );  
 
-    router.route("/updateRequestItem").post((request, response) => {
+    router.route("/updateAssignedSupervisorId").patch((request, response) => {
         let requestItem = { ...request.body };
-        dboperations.updateRequestItem(requestItem).then((result) => {
+        dboperations.updateAssignedSupervisorId(requestItem).then((result) => {
             response.status(201).json(result);
         });
         }
     );
+
 
     module.exports = router;
