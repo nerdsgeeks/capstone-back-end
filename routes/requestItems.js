@@ -1,20 +1,32 @@
-    const dboperations = require("../controllers/requestItemController");
-    var express = require("express");
-    var router = express.Router();
+const dboperations = require("../controllers/requestItemController");
+var express = require("express");
+var router = express.Router();
 
-    router.route("/all").get((request, response) => {
-        dboperations.getRequestItems().then((result) => {
-            response.json(result[0]);
-        });
-        }
-    );
+router.route("/all").get((request, response) => {
+  dboperations.getRequestItems().then((result) => {
+    response.json(result[0]);
+  });
+});
 
-    router.route("/getRequestItem/:id").get((request, response) => {
-        dboperations.getRequestItem(request.params.id).then((result) => {
-            response.json(result[0]);
-        });
-        }   
-    );
+router.route("/requestItemsTblAll").get((request, response) => {
+  dboperations.getRequestItemsTblAll().then((result) => {
+    response.json(result[0]);
+  });
+});
+
+router.route("/getRequestItem/:id").get((request, response) => {
+  dboperations.getRequestItem(request.params.id).then((result) => {
+    response.json(result[0]);
+  });
+});
+
+router.route("/getRequestItemView/:assignedRoomID").get((request, response) => {
+  dboperations
+    .getRequestItemView(request.params.assignedRoomID)
+    .then((result) => {
+      response.json(result[0]);
+    });
+});
 
     router.route("/addRequestItem").post((request, response) => {
 

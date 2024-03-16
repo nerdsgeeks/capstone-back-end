@@ -23,11 +23,4 @@ router.route('/addroom').post((request,response)=>{
     })
 })
 
-router.route('/getroombytype').get((request,response)=>{
-    dboperations.getRoomsWithTypes().then(result => {
-       response.json(result[0]);
-    })
-}
-)
-
 module.exports = router;

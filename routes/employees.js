@@ -17,7 +17,7 @@ router.route('/getemployee/:id').get((request,response)=>{
 
 router.route('/addemployee').post((request,response)=>{
     let employee = {...request.body}
-    dboperations.addEmployee(employee).then(result => {
+    dboperations.createEmployee(employee).then(result => {
        response.status(201).json(result);
     })
 })
