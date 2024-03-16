@@ -35,12 +35,4 @@ router.route("/deleteAssignedRoom").post((request, response) => {
   });
 });
 
-
-router.route("/getAssignedRoomsInfo").get((request, response) => {
-  dboperations.getAssignedRoomsInfo().then((result) => {
-    response.json(result);
-  });
-});
-
-
 module.exports = router;
