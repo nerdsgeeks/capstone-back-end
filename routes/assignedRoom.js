@@ -8,6 +8,12 @@ router.route("/all").get((request, response) => {
   });
 });
 
+router.route("/assignedRoomTblAll").get((request, response) => {
+  dboperations.getAssignedRoomTblAll().then((result) => {
+    response.json(result[0]);
+  });
+});
+
 router.route("/getAssignedRoom/:id").get((request, response) => {
   dboperations.getAssignedRoom(request.params.id).then((result) => {
     response.json(result[0]);
@@ -32,6 +38,12 @@ router.route("/deleteAssignedRoom").post((request, response) => {
   let assignedRoom = { ...request.body };
   dboperations.deleteAssignedRoom(assignedRoom).then((result) => {
     response.status(201).json(result);
+  });
+});
+
+router.route("/getAssignedRoomsInfo").get((request, response) => {
+  dboperations.getAssignedRoomsInfo().then((result) => {
+    response.json(result);
   });
 });
 

@@ -11,6 +11,16 @@ async function getAssignedRooms() {
   }
 }
 
+async function getAssignedRoomTblAll() {
+  try {
+    let pool = await sql.connect(config);
+    let objects = await pool.request().query("SELECT * from AssignedRoom");
+    return objects.recordsets;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function getAssignedRoom(assignedRoomId) {
   try {
     let pool = await sql.connect(config);
@@ -25,27 +35,33 @@ async function getAssignedRoom(assignedRoomId) {
 }
 
 async function addAssignedRoom(assignedRoom) {
+  console.log(assignedRoom);
+  console.log(assignedRoom.isCompleted);
   try {
     let pool = await sql.connect(config);
     let insertObject = await pool
       .request()
-      .input("RoomId", sql.Int, assignedRoom.RoomId)
+      .input("RoomId", sql.Int, assignedRoom.RoomID)
       .input("RoomStatus", sql.NVarChar, assignedRoom.RoomStatus)
-      .input("AssignedDateTime", sql.DateTime, assignedRoom.AssignedDateTime)
-      .input(
-        "AssignedHousekeeperId",
-        sql.Int,
-        assignedRoom.AssignedHousekeeperId,
-      )
-      .input("CleaningStatus", sql.NVarChar, assignedRoom.CleaningStatus)
-      .input("IsCompleted", sql.Binary, assignedRoom.IsCompleted)
-      .input("VerifiedPhotoUrl", sql.NVarChar, assignedRoom.VerifiedPhotoUrl)
-      .input("StartTime", sql.DateTime, assignedRoom.StartTime)
-      .input("EndTime", sql.DateTime, assignedRoom.EndTime)
-      .input("CleaningDuration", sql.Time, assignedRoom.CleaningDuration)
-      .input("IsHelperRequested", sql.Binary, assignedRoom.IsHelperRequested)
-      .input("RequestedHelperId", sql.Int, assignedRoom.RequestedHelperId)
+      .input("AssignedDateTime", sql.DateTime, assignedRoom.assignedDateTime)
+      .input("assignedEmployeeID", sql.Int, assignedRoom.assignedEmployeeID)
+      .input("CleaningStatus", sql.NVarChar, assignedRoom.cleaningStatus)
+      .input("IsCompleted", sql.Bit, assignedRoom.isCompleted)
+      .input("VerifiedPhotoUrl", sql.NVarChar, assignedRoom.verifiedPhotoUrl)
+      .input("StartTime", sql.DateTime, assignedRoom.startTime)
+      .input("EndTime", sql.DateTime, assignedRoom.endTime)
+      .input("CleaningDuration", sql.Time, assignedRoom.cleaningDuration)
+      .input("IsHelperRequested", sql.Bit, assignedRoom.isHelperRequested)
+      .input("RequestedHelperId", sql.Int, assignedRoom.reguestedHelperID)
       .input("AdditionalNotes", sql.NVarChar, assignedRoom.AdditionalNotes)
+      .input(
+        "inspectionFeedback",
+        sql.NVarChar,
+        assignedRoom.inspectionFeedback,
+      )
+      .input("rating", sql.Int, assignedRoom.rating)
+      .input("inspectionPhotos", sql.NVarChar, assignedRoom.inspectionPhotos)
+      .input("inspectionNotes", sql.NVarChar, assignedRoom.inspectionNotes)
       .execute("InsertAssignedRoom");
     return insertObject.recordsets;
   } catch (err) {
@@ -97,10 +113,47 @@ async function deleteAssignedRoom(assignedRoom) {
   }
 }
 
+async function getAssignedRoomsInfo() {
+  try {
+    let pool = await sql.connect(config);
+    let result = await pool.request().query(`
+    SELECT 
+    ar.ID AS assignedRoomID,
+    ar.*,
+    r.RoomName,
+    r.Floor,
+    r.RoomImageUrl,
+    rt.RoomTypeName,
+    res.GuestName AS guestName,
+    res.AdditionalNotes AS reservationNotes,
+    res.CheckinDate AS checkIn,
+    res.CheckoutDate AS checkOut,
+    res.noOfGuest AS noOfGuest,
+    e.FirstName,
+    e.LastName,
+    e.EmployeeType
+FROM 
+    AssignedRoom ar
+LEFT JOIN 
+    Rooms r ON ar.RoomID = r.ID
+JOIN 
+    RoomTypes rt ON r.RoomTypeID = rt.ID
+LEFT JOIN
+    Reservation res ON ar.ID = res.ID
+LEFT JOIN
+    Employee e ON ar.assignedEmployeeID = e.ID`);
+    return result.recordset;
+  } catch (error) {
+    console.error("Error fetching assigned rooms information:", error);
+    throw error;
+  }
+}
+
 module.exports = {
   getAssignedRooms: getAssignedRooms,
   getAssignedRoom: getAssignedRoom,
   addAssignedRoom: addAssignedRoom,
   updateAssignedRoom: updateAssignedRoom,
   deleteAssignedRoom: deleteAssignedRoom,
+  getAssignedRoomTblAll: getAssignedRoomTblAll,
 };
