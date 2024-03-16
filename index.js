@@ -21,7 +21,7 @@ const logout =  require('./routes/logout');
 const refresh = require('./routes/refresh');
 
 
-const jwtAuthMiddleware = require('./middleware/jwtAuth');
+// const jwtAuthMiddleware = require('./middleware/jwtAuth');
 
 
 const app = express();
