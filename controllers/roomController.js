@@ -4,7 +4,7 @@ const sql = require('mssql');
 async function getRooms() {
     try {
         let pool = await sql.connect(config);
-        let products = await pool.request().query("SELECT * from Rooms");
+        let products = await pool.request().query("SELECT * from view_room");
         return products.recordsets;
     }
     catch (error) {
