@@ -5,7 +5,7 @@ async function getRequestItems() {
   try {
     let pool = await sql.connect(config);
     let objects = await pool.request().query("SELECT * from View_RequestItems");
-    return objects.recordsets;
+    return objects.recordsets;   
   } catch (error) {
     console.log(error);
   }
@@ -83,7 +83,7 @@ async function updateRequestItem(requestItemId, requestItem) {
         "RequestedDateTime",sql.DateTime,requestItem.RequestedDateTime,
       )
       .input("assignedRoomID", sql.Int, requestItem.assignedRoomID)
-      .input("RequestedItemId", sql.Int, requestItem.requestItemId)
+      .input("RequestedItemID", sql.Int, requestItem.RequestedItemID)
       .input("Quantity", sql.Int, requestItem.Quantity)
       .input("IsCompleted", sql.Bit, requestItem.isCompleted)
       .input("Note", sql.NVarChar, requestItem.Note)
@@ -118,5 +118,7 @@ module.exports = {
     getRequestItem: getRequestItem,
     addRequestItem: addRequestItem,
     updateRequestItem: updateRequestItem,
-    deleteRequestItem: deleteRequestItem
+    deleteRequestItem: deleteRequestItem,
+    getRequestItemView: getRequestItemView,
+    getRequestItemsTblAll: getRequestItemsTblAll
 };

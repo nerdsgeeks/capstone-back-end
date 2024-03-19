@@ -38,18 +38,24 @@ router.route("/getRequestItemView/:assignedRoomID").get((request, response) => {
 
     );
         
-    router.route("/updateRequestItem").put((request, response) => {
-      let requestItem = request.body ;   
-      console.log(requestItem);
-      requestItem.map((requestItem) => {     
-          const requestItemId = requestItem.ID;      
-      dboperations.updateRequestItem(requestItemId, requestItem).then((result) => {
-          response.status(201).json(result);
-      });
+    router.route("/updateRequestItem").put(async (request, response) => {
+      try {
+          const requestItems = request.body;
+          const updateResults = [];
+  
+          for (const requestItem of requestItems) {
+              const requestItemId = requestItem.ID;
+              const result = await dboperations.updateRequestItem(requestItemId, requestItem);
+              updateResults.push(result);
+          }
+          // Send a single response with the results of all updates
+          response.status(201).json(updateResults);
+      } catch (error) {
+          console.error("Error updating request items:", error);
+          response.status(500).json({ error: "An error occurred while updating request items" });
       }
-  );  
-  }
-  );
+  });
+  
 
     router.route("/updateAssignedSupervisorId").patch((request, response) => {
         let requestItem = { ...request.body };
