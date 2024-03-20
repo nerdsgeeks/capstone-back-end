@@ -17,6 +17,7 @@ const s3Client = new S3Client({
 
 
 const uploadImageToS3 = async (imagePath, contentType) => {
+  console.log(imagePath);
   const imageContent = createReadStream(imagePath);  
   const key = `image/${uuidv4()}`;
 
@@ -31,8 +32,26 @@ const uploadImageToS3 = async (imagePath, contentType) => {
   return key;
 };
 
+
+const uploadbase64ToS3 = async (base64Image, contentType) => {
+  // Convert base64 string to buffer
+  const imageBuffer = Buffer.from(base64Image, 'base64');
+
+  const key = `image/${uuidv4()}`;
+
+  const PutObject = new PutObjectCommand({
+    Bucket: process.env.AWS_BUCKET,
+    Key: key,
+    Body: imageBuffer,
+    ContentType: contentType, 
+  });
+
+  await s3Client.send(PutObject);
+  return key;
+};
   
 
 module.exports = {
   uploadImageToS3,
+  uploadbase64ToS3
 };

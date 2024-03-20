@@ -5,7 +5,7 @@ async function getRequestItems() {
   try {
     let pool = await sql.connect(config);
     let objects = await pool.request().query("SELECT * from View_RequestItems");
-    return objects.recordsets;
+    return objects.recordsets;   
   } catch (error) {
     console.log(error);
   }
@@ -78,27 +78,27 @@ async function updateRequestItem(requestItemId, requestItem) {
     let pool = await sql.connect(config);
     let updateObject = await pool
       .request()
-      .input("Id", sql.Int, requestItemId)
+      .input("RequestItemID", sql.Int, requestItemId)
       .input(
-        "RequestItemDateTime",
-        sql.DateTime,
-        requestItem.RequestItemDateTime,
+        "RequestedDateTime",sql.DateTime,requestItem.RequestedDateTime,
       )
-      .input("RoomId", sql.Int, requestItem.RoomId)
-      .input("RequesterId", sql.Int, requestItem.RequesterId)
+      .input("assignedRoomID", sql.Int, requestItem.assignedRoomID)
+      .input("RequestedItemID", sql.Int, requestItem.RequestedItemID)
       .input("Quantity", sql.Int, requestItem.Quantity)
-      .input("IsCompleted", sql.Bit, requestItem.IsCompleted)
+      .input("IsCompleted", sql.Bit, requestItem.isCompleted)
+      .input("Note", sql.NVarChar, requestItem.Note)
       .input(
         "ApprovedBySupervisorId",
         sql.Int,
-        requestItem.ApprovedBySupervisorId,
+        requestItem.approvedBySupervisorID,
       )
       .execute("UpdateRequestItem");
     return updateObject.recordsets;
   } catch (err) {
     console.log(err);
   }
-}
+} 
+
 
 async function deleteRequestItem(requestItemId) {
   try {
@@ -114,11 +114,11 @@ async function deleteRequestItem(requestItemId) {
 }
 
 module.exports = {
-  getRequestItems: getRequestItems,
-  getRequestItem: getRequestItem,
-  addRequestItem: addRequestItem,
-  updateRequestItem: updateRequestItem,
-  deleteRequestItem: deleteRequestItem,
-  getRequestItemsTblAll: getRequestItemsTblAll,
-  getRequestItemView: getRequestItemView,
+    getRequestItems: getRequestItems,
+    getRequestItem: getRequestItem,
+    addRequestItem: addRequestItem,
+    updateRequestItem: updateRequestItem,
+    deleteRequestItem: deleteRequestItem,
+    getRequestItemView: getRequestItemView,
+    getRequestItemsTblAll: getRequestItemsTblAll
 };

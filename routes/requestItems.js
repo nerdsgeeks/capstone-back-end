@@ -28,25 +28,42 @@ router.route("/getRequestItemView/:assignedRoomID").get((request, response) => {
     });
 });
 
-router.route("/addRequestItem").post((request, response) => {
-  let requestItem = { ...request.body };
-  dboperations.addRequestItem(requestItem).then((result) => {
-    response.status(201).json(result);
-  });
-});
+    router.route("/addRequestItem").post((request, response) => {
 
-router.route("/updateRequestItem").post((request, response) => {
-  let requestItem = { ...request.body };
-  dboperations.updateRequestItem(requestItem).then((result) => {
-    response.status(201).json(result);
-  });
-});
+        let requestItem = { ...request.body };
+        dboperations.addRequestItem(requestItem).then((result) => {
+            response.status(201).json(result);
+        });
+        }
 
-router.route("/updateRequestItem").post((request, response) => {
-  let requestItem = { ...request.body };
-  dboperations.updateRequestItem(requestItem).then((result) => {
-    response.status(201).json(result);
+    );
+        
+    router.route("/updateRequestItem").put(async (request, response) => {
+      try {
+          const requestItems = request.body;
+          const updateResults = [];
+  
+          for (const requestItem of requestItems) {
+              const requestItemId = requestItem.ID;
+              const result = await dboperations.updateRequestItem(requestItemId, requestItem);
+              updateResults.push(result);
+          }
+          // Send a single response with the results of all updates
+          response.status(201).json(updateResults);
+      } catch (error) {
+          console.error("Error updating request items:", error);
+          response.status(500).json({ error: "An error occurred while updating request items" });
+      }
   });
-});
+  
 
-module.exports = router;
+    router.route("/updateAssignedSupervisorId").patch((request, response) => {
+        let requestItem = { ...request.body };
+        dboperations.updateAssignedSupervisorId(requestItem).then((result) => {
+            response.status(201).json(result);
+        });
+        }
+    );
+
+
+    module.exports = router;
