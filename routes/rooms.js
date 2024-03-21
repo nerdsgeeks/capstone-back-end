@@ -24,7 +24,7 @@ router.route("/addroom").post((request, response) => {
 
 router.route("/updateroom").put((request, response) => {
   let room = { ...request.body };
-  dboperations.updateRoom(order).then((result) => {
+  dboperations.updateRoom(room).then((result) => {
     response.status(201).json(result);
   });
 });

@@ -48,7 +48,7 @@ async function updateRoom(room) {
     let pool = await sql.connect(config);
     let insertProduct = await pool
       .request()
-      .input("RoomID", sql.NVarChar, room.ID)
+      .input("RoomID", sql.Int, room.ID)
       .input("RoomName", sql.NVarChar, room.RoomName)
       .input("RoomTypeID", sql.Int, room.RoomTypeID)
       .input("Floor", sql.Int, room.Floor)
