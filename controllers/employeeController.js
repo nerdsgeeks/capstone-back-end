@@ -101,4 +101,5 @@ module.exports = {
   getEmployees: getEmployees,
   deleteEmployee: deleteEmployee,
   getEmployee: getEmployee,
+  getAlldatabyEmployees:getAlldatabyEmployees,
 };
