@@ -70,28 +70,43 @@ async function addAssignedRoom(assignedRoom) {
 }
 
 async function updateAssignedRoom(assignedRoom) {
+  console.log(assignedRoom);
   try {
     //    console.log(item);
     let pool = await sql.connect(config);
     let updateObject = await pool
       .request()
-      .input("RoomId", sql.Int, assignedRoom.RoomId)
-      .input("RoomStatus", sql.NVarChar, assignedRoom.RoomStatus)
-      .input("AssignedDateTime", sql.DateTime, assignedRoom.AssignedDateTime)
-      .input(
-        "AssignedHousekeeperId",
-        sql.Int,
-        assignedRoom.AssignedHousekeeperId,
-      )
-      .input("CleaningStatus", sql.NVarChar, assignedRoom.CleaningStatus)
-      .input("IsCompleted", sql.Binary, assignedRoom.IsCompleted)
-      .input("VerifiedPhotoUrl", sql.NVarChar, assignedRoom.VerifiedPhotoUrl)
-      .input("StartTime", sql.DateTime, assignedRoom.StartTime)
-      .input("EndTime", sql.DateTime, assignedRoom.EndTime)
-      .input("CleaningDuration", sql.Time, assignedRoom.CleaningDuration)
-      .input("IsHelperRequested", sql.Binary, assignedRoom.IsHelperRequested)
-      .input("RequestedHelperId", sql.Int, assignedRoom.RequestedHelperId)
+      .input("ID", sql.Int, assignedRoom.ID)
+      .input("RoomID", sql.Int, assignedRoom.roomID)
+      .input("AssignedDateTime", sql.DateTime, assignedRoom.assignedDateTime)
+      .input("AssignedEmployeeID", sql.Int, assignedRoom.assignedEmployeeID)
+      .input("CleaningStatus", sql.NVarChar, assignedRoom.cleaningStatus)
+      .input("IsCompleted", sql.Bit, assignedRoom.isCompleted)
+      .input("VerifiedPhotoUrl", sql.NVarChar, assignedRoom.verifiedPhotoUrl)
+      .input("StartTime", sql.DateTime, assignedRoom.startTime)
+      .input("EndTime", sql.DateTime, assignedRoom.endTime)
+      .input("CleaningDuration", sql.Time, assignedRoom.cleaningDuration)
+      .input("IsHelperRequested", sql.Bit, assignedRoom.isHelperRequested)
+      .input("RequestedHelperID", sql.Int, assignedRoom.reguestedHelperID)
       .input("AdditionalNotes", sql.NVarChar, assignedRoom.AdditionalNotes)
+      .input(
+        "InspectionFeedback",
+        sql.NVarChar,
+        assignedRoom.inspectionFeedback,
+      )
+      .input("Rating", sql.Int, assignedRoom.rating)
+      .input("InspectionPhotos", sql.NVarChar, assignedRoom.inspectionPhotos)
+      .input("InspectionNotes", sql.NVarChar, assignedRoom.inspectionNotes)
+      .input(
+        "IsHelperRequestedApproved",
+        sql.Bit,
+        assignedRoom.isHelperRequestedApproved,
+      )
+      .input(
+        "HelperRequestedAdditionalNotes",
+        sql.NVarChar,
+        assignedRoom.helperRequestedAdditionalNotes,
+      )
       .execute("UpdateAssignedRoom");
 
     return updateObject.recordsets;

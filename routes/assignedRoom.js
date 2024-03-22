@@ -27,8 +27,9 @@ router.route("/addAssignedRoom").post((request, response) => {
   });
 });
 
-router.route("/updateAssignedRoom").post((request, response) => {
+router.route("/updateAssignedRoom").put((request, response) => {
   let assignedRoom = { ...request.body };
+  console.log(assignedRoom);
   dboperations.updateAssignedRoom(assignedRoom).then((result) => {
     response.status(201).json(result);
   });
