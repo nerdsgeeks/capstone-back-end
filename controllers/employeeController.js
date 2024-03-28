@@ -1,4 +1,3 @@
-
 //const User = require("../models/userModel");
 var config = require("../dbconfig");
 const bcrypt = require("bcrypt");
@@ -6,36 +5,37 @@ const sql = require("mssql");
 
 async function createEmployee(employee) {
   try {
-      let pool = await sql.connect(config);
-      const hashedPassword = await bcrypt.hash( employee.Password, 10);
-      let insertObject = await pool.request()
-          .input('FirstName', sql.VarChar, employee.FirstName)
-          .input('LastName', sql.VarChar, employee.LastName)
-          .input('Email', sql.VarChar, employee.Email)
-          .input('PhoneNumber', sql.VarChar, employee.PhoneNumber)
-          .input('ShiftSchadule', sql.VarChar, employee.ShiftSchadule)
-          .input('EmployeeID', sql.VarChar, employee.EmployeeID)
-          .input('Password', sql.VarChar,hashedPassword)
-          .input('EmployeeType', sql.Int, employee.EmployeeType)
-          .execute('CreateEmployee');
-      return insertObject.recordsets;
-  }
-  catch (err) {
-      console.log(err);
+    console.log(employee);
+    let pool = await sql.connect(config);
+    const hashedPassword = await bcrypt.hash(employee.Password, 10);
+    let insertObject = await pool
+      .request()
+      .input("FirstName", sql.VarChar, employee.firstName)
+      .input("LastName", sql.VarChar, employee.lastName)
+      .input("Email", sql.VarChar, employee.email)
+      .input("PhoneNumber", sql.VarChar, employee.phoneNumber)
+      .input("ShiftSchadule", sql.VarChar, employee.shiftSchadule)
+      .input("EmployeeID", sql.VarChar, employee.employeeID)
+      .input("Password", sql.VarChar, hashedPassword)
+      .input("EmployeeType", sql.Int, employee.employeeType)
+      .input("ImageURL", sql.VarChar, employee.imageURL)
+      .execute("CreateEmployee");
+    return insertObject.recordsets;
+  } catch (err) {
+    console.log(err);
   }
 }
 
 async function getEmployees() {
   try {
-      let pool = await sql.connect(config);
-      let objects = await pool.request().execute('GetEmployees');
-      return objects.recordsets;
-  }
-  catch (err) {
-      console.log(err);
+    let pool = await sql.connect(config);
+    let objects = await pool.request().execute("GetEmployees");
+    return objects.recordsets;
+  } catch (err) {
+    console.log(err);
   }
 }
-async function getEmployee(ID ) {
+async function getEmployee(ID) {
   try {
     let pool = await sql.connect(config);
     let object = await pool
@@ -49,40 +49,38 @@ async function getEmployee(ID ) {
 }
 async function updateEmployee(employee) {
   try {
-    const hashedPassword = await bcrypt.hash( employee.Password, 10);
+    const hashedPassword = await bcrypt.hash(employee.Password, 10);
     let pool = await sql.connect(config);
-      let updateObject = await pool.request()
-          .input('EmployeeID', sql.Int, employee.EmployeeID)
-          .input('FirstName', sql.VarChar, employee.FirstName)
-          .input('LastName', sql.VarChar, employee.LastName)
-          .input('Email', sql.VarChar, employee.Email)
-          .input('PhoneNumber', sql.VarChar, employee.PhoneNumber)
-          .input('ShiftSchadule', sql.VarChar, employee.ShiftSchadule)
-          .input('EmployeeID', sql.VarChar, employee.EmployeeID)
-          .input('Password', sql.VarChar,hashedPassword)
-          .input('EmployeeType', sql.Int, employee.EmployeeType)
-          .execute('UpdateEmployee');
-      return updateObject.recordsets;
-  }
-  catch (err) {
-      console.log(err);
+    let updateObject = await pool
+      .request()
+      .input("EmployeeID", sql.Int, employee.EmployeeID)
+      .input("FirstName", sql.VarChar, employee.FirstName)
+      .input("LastName", sql.VarChar, employee.LastName)
+      .input("Email", sql.VarChar, employee.Email)
+      .input("PhoneNumber", sql.VarChar, employee.PhoneNumber)
+      .input("ShiftSchadule", sql.VarChar, employee.ShiftSchadule)
+      .input("EmployeeID", sql.VarChar, employee.EmployeeID)
+      .input("Password", sql.VarChar, hashedPassword)
+      .input("EmployeeType", sql.Int, employee.EmployeeType)
+      .execute("UpdateEmployee");
+    return updateObject.recordsets;
+  } catch (err) {
+    console.log(err);
   }
 }
 
 async function deleteEmployee(employeeID) {
   try {
-      let pool = await sql.connect(config);
-      let deleteObject = await pool.request()
-          .input('EmployeeID', sql.Int, employeeID)
-          .execute('DeleteEmployee');
-      return deleteObject.recordsets;
-  }
-  catch (err) {
-      console.log(err);
+    let pool = await sql.connect(config);
+    let deleteObject = await pool
+      .request()
+      .input("EmployeeID", sql.Int, employeeID)
+      .execute("DeleteEmployee");
+    return deleteObject.recordsets;
+  } catch (err) {
+    console.log(err);
   }
 }
-
-
 
 module.exports = {
   createEmployee: createEmployee,
