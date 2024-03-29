@@ -11,6 +11,18 @@ async function getAssignedRooms() {
   }
 }
 
+async function getAssignedRoomsCount() {
+  try {
+    let pool = await sql.connect(config);
+    let objects = await pool.request().query("SELECT * from View_assignedRoomCount");
+    return objects.recordsets;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 async function getAssignedRoom(assignedRoomId) {
   try {
     let pool = await sql.connect(config);

@@ -43,20 +43,22 @@ async function addRequestItem(requestItem) {
     }
 }
 
-async function updateRequestItem(requestItemId, requestItem) {
-
+async function updateRequestItem( requestItem) {
+    console.log(requestItem);
     try {
         let pool = await sql.connect(config);
         let updateObject = await pool
             .request()
-            .input("Id", sql.Int, requestItemId)
-            .input("RequestItemDateTime", sql.DateTime, requestItem.RequestItemDateTime)
-            .input("RoomId", sql.Int, requestItem.RoomId)
-            .input("RequesterId", sql.Int, requestItem.RequesterId)
-            .input("Quantity", sql.Int, requestItem.Quantity)
+            .input("RequestItemID", sql.Int, requestItem.requestItemId)
+            .input("RequestedItemId", sql.Int, requestItem.requestedItemId)
+            .input("RequestedDateTime", sql.DateTime, requestItem.RequestItemDateTime)
+            .input("assignedRoomID", sql.Int, requestItem.assignedRoomID)
+             .input("Quantity", sql.Int, requestItem.Quantity)
+             .input("Note", sql.VarChar, requestItem.Note)
             .input("IsCompleted", sql.Bit, requestItem.IsCompleted)
             .input("ApprovedBySupervisorId", sql.Int, requestItem.ApprovedBySupervisorId)
             .execute("UpdateRequestItem");
+
         return updateObject.recordsets;
     } catch (err) {
         console.log(err);

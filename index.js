@@ -38,7 +38,7 @@ app.use("/api/auth", authentication);
 app.use('/api/refresh', refresh);
 app.use('/api/logout',logout);
 
- app.use(verifyJWT);
+app.use(verifyJWT);
 
 var bodyParser = require("body-parser");
 

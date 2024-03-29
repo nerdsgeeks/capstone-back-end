@@ -13,6 +13,11 @@ router.route('/alldatabyemployee').get((request,response)=>{
       response.json(result[0]);
    })
 })
+router.route('/employeecount').get((request,response)=>{
+   dboperations.getCountEmployees().then(result => {
+      response.json(result[0]);
+   })
+})
 router.route('/getemployee/:id').get((request,response)=>{
     dboperations.getEmployee(request.params.id).then(result => {
        response.json(result[0]);

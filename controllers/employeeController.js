@@ -46,6 +46,20 @@ async function getAlldatabyEmployees() {
   }
 }
 
+
+
+async function getCountEmployees() {
+  try {
+    let pool = await sql.connect(config);
+    let objects = await pool.request().query("SELECT * from View_EmployeeCount");
+    return objects.recordsets;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 async function getEmployee(ID ) {
   try {
     let pool = await sql.connect(config);
@@ -102,4 +116,5 @@ module.exports = {
   deleteEmployee: deleteEmployee,
   getEmployee: getEmployee,
   getAlldatabyEmployees:getAlldatabyEmployees,
+  getCountEmployees:getCountEmployees,
 };

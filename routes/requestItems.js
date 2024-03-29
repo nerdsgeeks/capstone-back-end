@@ -34,12 +34,4 @@
         }
     );  
 
-    router.route("/updateRequestItem").post((request, response) => {
-        let requestItem = { ...request.body };
-        dboperations.updateRequestItem(requestItem).then((result) => {
-            response.status(201).json(result);
-        });
-        }
-    );
-
     module.exports = router;
