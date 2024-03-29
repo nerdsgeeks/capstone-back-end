@@ -1,12 +1,11 @@
 const express = require("express");
-const cors = require('cors');
-const corsOptions = require('./config/corsOptions');
+const cors = require("cors");
+const corsOptions = require("./config/corsOptions");
 // const { logger } = require('./middleware/logEvents');
 // const errorHandler = require('./middleware/errorHandler');
-const verifyJWT = require('./middleware/verifyJWT');
-const cookieParser = require('cookie-parser');
-const credentials = require('./middleware/credentials');
-
+const verifyJWT = require("./middleware/verifyJWT");
+const cookieParser = require("cookie-parser");
+const credentials = require("./middleware/credentials");
 
 // const mongoose = require("mongoose");
 const itemRoutes = require("./routes/items");
@@ -18,16 +17,14 @@ const employees = require("./routes/employees");
 const assignedrooms = require("./routes/assignedRoom");
 const s3Routes = require("./routes/uploadS3");
 const authentication = require("./routes/auth");
-const logout =  require('./routes/logout');
-const refresh = require('./routes/refresh');
-
+const logout = require("./routes/logout");
+const refresh = require("./routes/refresh");
 
 const jwtAuthMiddleware = require("./middleware/jwtAuth");
 
-
 const app = express();
 app.use("/protectedRoute", jwtAuthMiddleware);
-
+app.use(express.json({ limit: "50mb" }));
 
 app.use(credentials);
 app.use(cors(corsOptions));
@@ -35,8 +32,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/auth", authentication);
-app.use('/api/refresh', refresh);
-app.use('/api/logout',logout);
+app.use("/api/refresh", refresh);
+app.use("/api/logout", logout);
 
 app.use(verifyJWT);
 
@@ -60,7 +57,6 @@ app.use("/api/roomtypes", roomtypes);
 app.use("/api/employees", employees);
 app.use("/api/assignedrooms", assignedrooms);
 app.use("/api/s3", s3Routes);
-
 
 // router.use((request,response,next)=>{
 //     console.log('middleware');
