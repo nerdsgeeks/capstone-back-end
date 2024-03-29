@@ -20,6 +20,19 @@ router.route("/getAssignedRoom/:id").get((request, response) => {
   });
 });
 
+router
+  .route("/getAssignedRoomView/:assignedEmployeeID/:currenDate")
+  .get((request, response) => {
+    dboperations
+      .getAssignedRoomView(
+        request.params.assignedEmployeeID,
+        request.params.currenDate,
+      )
+      .then((result) => {
+        response.json(result[0]);
+      });
+  });
+
 router.route("/addAssignedRoom").post((request, response) => {
   let assignedRoom = { ...request.body };
   dboperations.addAssignedRoom(assignedRoom).then((result) => {

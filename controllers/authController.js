@@ -28,7 +28,7 @@ const login = async (req, res) => {
     const EmployeeType = result.recordset[0].EmployeeType;
     const imageURL = result.recordset[0].imageURL;
 
-    console.log(userID);
+    // console.log(userID);
 
     if (match) {
       const accessToken = jwt.sign(
