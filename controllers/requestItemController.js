@@ -58,9 +58,10 @@ async function addRequestItem(requestItem) {
       .input("assignedRoomID", sql.Int, requestItem.assignedRoomID)
       .input("RequestedItemID", sql.Int, requestItem.RequestedItemID)
       .input("Quantity", sql.Int, requestItem.Quantity)
-      .input("Note", sql.NVarChar, requestItem.Note)
+      .input("Note", sql.VarChar, requestItem.Note)
       .input("RequestedDateTime", sql.DateTime, requestItem.RequestedDateTime)
       .input("isCompleted", sql.Bit, requestItem.isCompleted)
+      .input("requestItemStatus", sql.VarChar, requestItem.requestItemStatus)
       .input(
         "approvedBySupervisorID",
         sql.Int,
@@ -87,6 +88,7 @@ async function updateRequestItem( requestItem) {
              .input("Note", sql.VarChar, requestItem.Note)
             .input("IsCompleted", sql.Bit, requestItem.IsCompleted)
             .input("ApprovedBySupervisorId", sql.Int, requestItem.ApprovedBySupervisorId)
+            .input("requestItemStatus", sql.VarChar, requestItem.requestItemStatus)
             .execute("UpdateRequestItem");
 
         return updateObject.recordsets;
