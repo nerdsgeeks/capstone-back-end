@@ -35,6 +35,19 @@ router.route("/updateAssignedRoom").put((request, response) => {
   });
 });
 
+
+router.route("/updateAssignedRoomIsCompleted").put(async (request, response) => {
+  let updateAssignedRoom = []
+  const requestRoom = request.body;
+  for (request of requestRoom) {
+   const result = await dboperations.updateAssignedRoom(request);
+   updateAssignedRoom.push(result);
+  }
+   response.status(201).json(updateAssignedRoom);
+ }
+ );
+ 
+
 router.route("/deleteAssignedRoom").post((request, response) => {
   let assignedRoom = { ...request.body };
   dboperations.deleteAssignedRoom(assignedRoom).then((result) => {
