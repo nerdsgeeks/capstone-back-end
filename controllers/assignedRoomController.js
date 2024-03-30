@@ -34,6 +34,24 @@ async function getAssignedRoom(assignedRoomId) {
   }
 }
 
+async function getAssignedRoomView(assignedEmployeeID, currenDate) {
+  try {
+    let pool = await sql.connect(config);
+    console.log(assignedEmployeeID);
+    console.log(currenDate);
+    let object = await pool
+      .request()
+      .input("assignedEmployeeID", sql.Int, assignedEmployeeID)
+      .input("currenDate", sql.NVarChar, currenDate)
+      .query(
+        "SELECT * from View_AssignedRoom where assignedEmployeeID = @assignedEmployeeID and  SUBSTRING(CONVERT(VARCHAR, assignedDateTime, 120), 1, 10) = @currenDate",
+      );
+    return object.recordsets;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 async function addAssignedRoom(assignedRoom) {
   console.log(assignedRoom);
   console.log(assignedRoom.isCompleted);
@@ -171,4 +189,5 @@ module.exports = {
   updateAssignedRoom: updateAssignedRoom,
   deleteAssignedRoom: deleteAssignedRoom,
   getAssignedRoomTblAll: getAssignedRoomTblAll,
+  getAssignedRoomView: getAssignedRoomView,
 };
