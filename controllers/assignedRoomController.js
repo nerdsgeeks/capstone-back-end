@@ -133,32 +133,34 @@ async function deleteAssignedRoom(assignedRoom) {
 async function getAssignedRoomsInfo() {
   try {
     let pool = await sql.connect(config);
-    let result = await pool.request().query(`
-    SELECT 
-    ar.ID AS assignedRoomID,
-    ar.*,
-    r.RoomName,
-    r.Floor,
-    r.RoomImageUrl,
-    rt.RoomTypeName,
-    res.GuestName AS guestName,
-    res.AdditionalNotes AS reservationNotes,
-    res.CheckinDate AS checkIn,
-    res.CheckoutDate AS checkOut,
-    res.noOfGuest AS noOfGuest,
-    e.FirstName,
-    e.LastName,
-    e.EmployeeType
-FROM 
-    AssignedRoom ar
-LEFT JOIN 
-    Rooms r ON ar.RoomID = r.ID
-JOIN 
-    RoomTypes rt ON r.RoomTypeID = rt.ID
-LEFT JOIN
-    Reservation res ON ar.ID = res.ID
-LEFT JOIN
-    Employee e ON ar.assignedEmployeeID = e.ID`);
+ let result = await pool.request().query(`SELECT * from View_AssignedRoomsInfo`);
+    
+//     let result = await pool.request().query(`
+//     SELECT 
+//     ar.ID AS assignedRoomID,
+//     ar.*,
+//     r.RoomName,
+//     r.Floor,
+//     r.RoomImageUrl,
+//     rt.RoomTypeName,
+//     res.GuestName AS guestName,
+//     res.AdditionalNotes AS reservationNotes,
+//     res.CheckinDate AS checkIn,
+//     res.CheckoutDate AS checkOut,
+//     res.noOfGuest AS noOfGuest,
+//     e.FirstName,
+//     e.LastName,
+//     e.EmployeeType
+// FROM 
+//     AssignedRoom ar
+// LEFT JOIN 
+//     Rooms r ON ar.RoomID = r.ID
+// JOIN 
+//     RoomTypes rt ON r.RoomTypeID = rt.ID
+// LEFT JOIN
+//     Reservation res ON ar.ID = res.ID
+// LEFT JOIN
+//     Employee e ON ar.assignedEmployeeID = e.ID`);
     return result.recordset;
   } catch (error) {
     console.error("Error fetching assigned rooms information:", error);
@@ -172,5 +174,6 @@ module.exports = {
   addAssignedRoom: addAssignedRoom,
   updateAssignedRoom: updateAssignedRoom,
   deleteAssignedRoom: deleteAssignedRoom,
-  getAssignedRoomTblAll: getAssignedRoomTblAll,
+  getAssignedRoomsInfo: getAssignedRoomsInfo,
+  // getAssignedRoomTblAll: getAssignedRoomTblAll,
 };
