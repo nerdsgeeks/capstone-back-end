@@ -73,31 +73,29 @@ async function addRequestItem(requestItem) {
   }
 }
 
-async function updateRequestItem(requestItemId, requestItem) {
+async function updateRequestItem( requestItem) {
+  console.log(requestItem,'contorllser');
   try {
-    let pool = await sql.connect(config);
-    let updateObject = await pool
-      .request()
-      .input("RequestItemID", sql.Int, requestItemId)
-      .input(
-        "RequestedDateTime",sql.DateTime,requestItem.RequestedDateTime,
-      )
-      .input("assignedRoomID", sql.Int, requestItem.assignedRoomID)
-      .input("RequestedItemID", sql.Int, requestItem.RequestedItemID)
-      .input("Quantity", sql.Int, requestItem.Quantity)
-      .input("IsCompleted", sql.Bit, requestItem.isCompleted)
-      .input("Note", sql.NVarChar, requestItem.Note)
-      .input(
-        "ApprovedBySupervisorId",
-        sql.Int,
-        requestItem.approvedBySupervisorID,
-      )
-      .execute("UpdateRequestItem");
-    return updateObject.recordsets;
+      let pool = await sql.connect(config);
+      let updateObject = await pool
+          .request()
+          .input("RequestItemID", sql.Int, requestItem.requestedItemId)
+          .input("RequestedItemID", sql.Int, requestItem.requestItemId)
+         .input("assignedRoomID", sql.Int, requestItem.assignedRoomID)
+           .input("RequestedDateTime", sql.DateTime, requestItem.RequestItemDateTime)
+           .input("Quantity", sql.Int, requestItem.Quantity)
+           .input("Note", sql.NVarChar, requestItem.Note)
+          .input("IsCompleted", sql.Bit, requestItem.isCompleted)
+          .input("ApprovedBySupervisorID", sql.Int, requestItem.ApprovedBySupervisorId)
+          .input("requestItemStatus", sql.NVarChar, requestItem.requestItemStatus)
+          .execute("UpdateRequestItem");
+
+      console.log(updateObject.recordsets);
+      return updateObject.recordsets;
   } catch (err) {
-    console.log(err);
+      console.log(err);
   }
-} 
+}
 
 
 async function deleteRequestItem(requestItemId) {
