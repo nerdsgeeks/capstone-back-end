@@ -42,12 +42,11 @@ router.route("/getRequestItemView/:assignedRoomID").get((request, response) => {
       try {
           const requestItems = request.body;
           const updateResults = [];
-  
           for (const requestItem of requestItems) {
-              const requestItemId = requestItem.ID;
-              const result = await dboperations.updateRequestItem(requestItemId, requestItem);
+              const result = await dboperations.updateRequestItem(requestItem);
               updateResults.push(result);
           }
+
           // Send a single response with the results of all updates
           response.status(201).json(updateResults);
       } catch (error) {
