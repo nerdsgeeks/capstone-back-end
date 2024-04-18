@@ -1,13 +1,14 @@
 require("dotenv").config();
 
 const config = {
-    user :'azim',
+    user :'cleanopsuser',
     password :process.env.DBPASS,
-    server:'mylangaradb.database.windows.net',
+    server:'185.141.134.185',
     database:'CleanOpsDB',
     options:{
         trustedconnection: true,
         enableArithAbort : true, 
+        trustServerCertificate : true,
     },
     port : 1433
 }

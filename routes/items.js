@@ -4,6 +4,7 @@ var express = require('express');
 var router = express.Router();
 
 router.route('/all').get((request,response)=>{
+   console.log("Getting all items");
     dboperations.getItems().then(result => {
        response.json(result[0]);
     })
